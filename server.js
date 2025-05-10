@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config(); // Load environment variables from .env file
 const http = require("http");
 const express = require("express");
 const cors = require("cors");
@@ -8,30 +8,25 @@ const routes = require("./routes");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 
-
 const app = express();
 
 // Middleware
 app.use(cors({ origin: "*", credentials: true }));
-
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-// app.use("/public", express.static("public"));
-// app.use("/v1/public", express.static(path.join(__dirname, "public")));
+// Static file handling for images
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
-
-//routes
+// Routes
 app.use("/v1", routes);
 
 // Database Connection
 connectDB();
 
-// Start Server
-const PORT = process.env.PORT || 4004;
+// Start Server on specified PORT from environment variable or default to 5000
+const PORT = process.env.PORT || 5000;
 http.createServer(app).listen(PORT, () => {
   console.log(`Server running on port: ${PORT}`);
 });
